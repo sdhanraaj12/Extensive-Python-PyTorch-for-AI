@@ -29,12 +29,10 @@
     """
     This Function creates a counter for input function and updates it in given dictionary
     """
-
 ### add (a:"Number1", b"Number1")->"Sum of Numbers":
     """
     This Function Returns sum of Two given real numbers (Integer/Floats)
     """
-
 ### mul (a:"Number1", b"Number1")->"Multiplication of Numbers":
     """
     This Function Returns Multiplication of Two given real numbers (Integer/Floats)
