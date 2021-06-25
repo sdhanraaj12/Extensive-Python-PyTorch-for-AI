@@ -9,7 +9,7 @@
 - Once done, upload the code to github, run actions, and then proceed to answer S7 - Assignment Solutions. 
 - No readme or no docstring for each function, or no test cases (4, 2, 6, 6 tests), then 0 . Write test cases to check boundary conditions that might cause your code to fail. You mustg write the tests that are MOST important and what "I" already have in my mind 🤯↷🧠
 
-## Description of Functions in Assignment
+## Functions used in main assignment file ([ session7.py](https://github.com/sdhanraaj12/Extensive_Python_PyTorch_for_AI/blob/master/Session7/session7.py))
 ### function_1_docstring_50_count(fn):
     """
     This Closure function thats takes in function check if its docstring is having 50 character
@@ -41,45 +41,3 @@
     """
     This Function Returns division of Two given real numbers (Integer/Floats)
     """
-## Functions used in Test File
-### test_readme_exists 
-- checks if Readme files exists
-
-### test_readme_contents length 
-- checks the content length of  Readme file
-### test_readme_proper_description 
-- checks the content length of  Readme file
-
-### test_readme_file_for_formatting 
-- checks the formatting of  Readme file
-
-### test_indentations 
-- checks if the Assignment code is properly formated
-
-### test_function_name_had_cap_letter 
-- checks if the Assignment code is function has capital letters 
-### test_function_1_docstring_50_count():
-- Checks if function_1_docstring_50_count works  for all boundary condition
-### test_function_2_fibonacci():
-- Checks if function_2_fibonacci works
-### test_function_3_counter():
-- Checks if function_3_counter works  for all boundary condition   
-### test_function_4_counter():
-- Checks if function_3_counter works  for all boundary condition
-
-For This Assignment we made use of Following imports 
-- pytest
-- random
-- randint
-- string
-Based on our understanding following concept
-- Global scope
-- Local scope
-- nonlocal scope
-- closure
-- Used cases for counter creation
-
-
-We are using python >3.8.3
-
-The assignment is  tested by executing 'pytest' , from python shell in same folder
