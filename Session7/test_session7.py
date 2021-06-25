@@ -7,9 +7,6 @@ import re
 README_CONTENT_CHECK_FOR = [
     'check_docstring',
     'generate_fibanoci',
-    'closure',
-    'free variable',
-    'non local',
     'function_counter',
     'function_counter_mod'
 ]
