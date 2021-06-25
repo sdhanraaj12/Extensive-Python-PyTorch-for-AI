@@ -1,146 +1,45 @@
-# **Session 7 - Scopes and Closures**
-This session was all about Global and Local Scopes, Nonlocal scopes, Closures, and Closure.
+# Extensive Python & PyTorch for AI
+## An advanced Python concepts for the fundamental understanding of Python Language and PyTorch for software and application Architecture. 
 
-## **Assignment**
+### PHASE #1 - FUNCTIONAL PYTHON
 
-1. Write a closure that takes a function and then check whether the function passed has a docstring with more than 50 characters. 50 is stored as a free variable
-2. Write a closure that gives you the next Fibonacci number 
-3. Write a closure that can keep a track of how many times add/mul/div functions were called, and update a global dictionary variable with the counts
-4. Modify above such that now we can pass in different dictionary variables to update different dictionaries 
+Basics: Python Type Hierarchy, Multi-line statements and strings, Variable Names, Conditionals, Functions, The While Loop, Break Continue and the Try Statement, The For Loop and Classes
+Object Mutability and Interning: Variables and Memory References, Garbage Collection, Dynamic vs static Typing, Variable Re-assignment, Object Mutability, Variable Equality, Everything is an Object and Python Interning
+Numeric Types I: Integers, Constructors, Bases, Rational Numbers, Floats, rounding, Coercing to Integers and equality
+Numeric Types II: Decimals, Decimal Operations, Decimal Performance, Complex Numbers, Booleans, Boolean Precedence and Comparison Operators
+Functional Parameters: Argument vs Parameter, Positional and keyword Arguments, Unpacking Iterables, Extended Unpacking, __*args_, Keyword Arguments, __**kwags_, Args and Kwargs together, Parameter Defaults and Application
+First Class Functions Part I: Lambda Expressions, Lambdas and Sorting, Functional Introspection, Callables, Map, Filter, Zip and List Comprehension
+First Class Functions Part II: List Comprehension, Reducing functions, Partial Functions, Operator Module, Docstrings and Annotations.
+Scopes and Closures: Global and Local Scopes, Nonlocal scopes, Closures, and Closure Applications
+Decorators: Decorators and Decorator applications (timers, logger, stacked decorators, memoization, decorator class and dispatching)
+Tuples and Named Tuples: Tuples, Tuples as data structures, named Tuples, DocStrings, and Application
+Modules, Packages and Namespaces: Module, Python Imports, importlib, import variants, reloading modules, __main__, packages, structuring, and namespaces
+fStrings, Timing Functions and Command Line Arguments: Dictionary Ordering, kwargs, tuples, fStrings, Timing Functions and Command Line Arguments
+Sequence Types I: Sequence Types, Mutable Sequence Types, List vs Tuples, Index Base and Slice Bounds, Copying Sequence and Slicing
+Sequence Types II and Advanced List Comprehension: Custom Sequences, In-place Concatenation and Repetition, Sorting Sequences, List Comprehensions + Small Project
+Iterables and Iterators: Iterating Collections, Iterators, Iterables, Cyclic Iterators, in-built Iterators, iter() function and iterator applications
+Generators and Iteration Tools: Yielding and Generator Functions, Generator Expressions, Yield From, Aggregators, Chaining and Teeing, Zipping and their applications
+Context Managers: Context Managers, Lasy Iterators, Generators and Context Managers, Nested Context Managers and their application
+Coroutines and Data Pipelines: Coroutines, Generator States, Exceptions, Data Pipeline, and application
+ 
 
+ 
 
-## **Implementation**
+### PHASE #2 - OOPS & PYTORCH
 
-### **check_doc_outer_fn** 
-Function to implement closure, encapsulates a function that checks whether an given function has docstring with more than 50 characters.
-
-```python
-def check_doc_outer_fn() -> 'Function':
-    """
-    Function to implement closure, encapsulates a function
-    that checks whether an given function has docstring with more than 50 characters
-    """
-    min_character_len = 50
-
-    def check_doc_inner_fn(fn: 'Function') -> 'Boolean':
-        """
-        This is the inner function that checks the 
-        docstring legth.
-        Input: Function for which the docs has to be checked.
-        Output: True if doc string length > 50 else False
-
-        """
-        if not isinstance(fn, Callable):
-            raise TypeError("Expected function!")
-
-        return True if(len(fn.__doc__) >= min_character_len) else False
-
-    return check_doc_inner_fn
-```
-
-### **fibonacci**
-Function to implement closure, encapsulates a function that automatically gives you the fibonacci number
-
-```python
-def fibonacci() -> "Function":
-
-    """
-    Function to implement closure, encapsulates a function
-    that automatically gives you the fibonacci number.
-    """
-    num_1, num_2,count = 0, 1,0
-
-    def next_fibbonacci_number() -> "Number":
-        """
-        Returns the next fibonacci number in the sequence.
-        """
-        nonlocal num_1, num_2, count
-
-        if(count == 0):
-            count+=1
-            return 0
-        elif(count==1):
-            count+=1
-            return num_2
-        else:
-            num_1, num_2 = num_2, num_1+num_2
-            return num_2
-
-    return next_fibbonacci_number
-```
-
-### **func_counter**
-
-Function to implement closure, encapsulates a function that keeps tracks of how many times a particular function has been called. It updates a global list with count, and also mantains a free variable list so as to not let user alter the count.
-
-```python
-def func_counter() -> "Function":
-    """
-    Function to implement closure, encapsulates a function
-    that keeps tracks of how many times a particular function
-    has been called. It updates a global list with count, and
-    also mantains a free variable list so as to not let user 
-    alter the count.
-
-    """
-    call_count_free = {}
-    def func_counter_inside(func: "Function", *args, **kwargs) -> "":
-        """
-        Inner function that actually Updates and keeps track
-        of the number of times,a function might be called.
-
-        Input: function and *args and *kwargs to be passed
-                to the function
-        Returns: Returned value from the function, called with
-                provided parameters.
-        """
-        global call_count
-        nonlocal call_count_free
-        if not isinstance(func, Callable):
-            raise TypeError("Expected function!")
-        func_name = func.__name__
-        count = call_count_free.get(func_name, 0)
-        call_count_free[func_name] = count + 1
-        call_count = call_count_free
-
-        return func(*args, **kwargs)
-
-    return func_counter_inside
-```
-
-### **func_count_with_dict_outer**
-
-Function to implement closure, encapsulates a function that keeps tracks of how many times a particular function has been called. It updates a dictionary given in the input
-
-```python
-def func_count_with_dict_outer(count_dict : dict) -> "Function":
-    """
-    Function to implement closure, encapsulates a function
-    that keeps tracks of how many times a particular function
-    has been called. It updates a dictionary given in the input
-
-    """
-    if type(count_dict) != dict:
-        raise TypeError("Expected dictionary!")
-
-    def func_count_with_dict_inner(func: "Function", *args, **kwargs) -> "Function called with provided parameters.":
-        """
-        Updates and keeps track of the number of times, 
-        a function might be called.
-        Input: function and *args and *kwargs to be passed
-                to the function
-        Returns: Returned value from the function, called with
-                provided parameters.
-        """
-        nonlocal count_dict 
-
-        if not isinstance(func, Callable):
-            raise TypeError("Expected function!")
-        func_name = func.__name__
-        count = count_dict.get(func_name, 0)
-        count_dict[func_name] = count + 1
-
-        return func(*args, **kwargs)
-
-    return func_count_with_dict_inner
-```
+Hash Maps and Dictionaries: Associative Arrays, Hash Maps, Hash Functions, Dictionary Views, Handling Dictionaries and Custom Classes
+Sets and Serialized Dictionaries:Set Theory, Python Sets, Frozen Sets, and Set Applications, DefaultDict, OrderedDict, Counters and UserDict
+Serialization and Deserialization:Picking, JSON Serialization, Encoding and Decoding JSON, and Applications
+Classes Part I:Object and Classes, Attributes, Callables, Functional Attributes and Run-time attributes
+Classes Part II + Dataclasses:Properties, Decorators, Read-Only Properties, Class and Static Methods, Scopes, Dataclasses and Application
+Polymorphism and Special Methods:Polymorhpism, __str__ and __repr__ methods, rich comparisons, hashing and equality, callables, and applications
+Single Inheritance:Single Inheritance, Object Class, Overriding, Extending, Delegation, Slots, and applications
+Descriptors:Descriptors, Getters and Setters, Instance Propertiers, Strong and Weak References, __set_name__ method, Proprty Lookup Resolution and application
+Enumerations and Exceptions:Enumerations, Aliases, Custom Enums, Python Exceptions, Handling and Raising Exceptions and creating custom exceptions
+Pytorch Basics I :Matrices, Tensors, Variables, Numpy and PyTorch inter-operatibility, Rank, Axes and Shapes
+PyTorch Basics II:Data and Dataloader, Forward Method, Training Loop and Training Pipeline
+PyTorch Intermediate I + Pytorch Internals:PyTorch Classes, Containers, Layers and Activations. PyTorch Internals or how Pytorch uses Advanced Python internally
+PyTorch Intermediate II:Distance and Basic Loss Functions, Utilities, Profiling Layers, MACs/FLOPs calculations and Memory Usage
+PyTorch Advanced I:Convolution Algorithm Implementation, Autograd Mechanics and Dynamic Computation Graph
+PyTorch Advanced II:Optimizers, Custom Dataloaders, Tensorboard Integration, Memory Management and Half Precision Training
+PyTorch Advanced III:Advanced Loss Functions for GAN, Kullback Lieber, Embeddings, Focal, IoU, Perceptual, CTC, Triplet and DICE
