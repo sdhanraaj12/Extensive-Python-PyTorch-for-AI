@@ -1,5 +1,5 @@
-# Assignment for Session 7
-### Created by Shashwat Dhanraaj
+# Session 7 -  Assignment
+### by Shashwat Dhanraaj
 ## Assignment states:
 
 - Write a closure that takes a function and then check whether the function passed has a docstring with more than 50 characters. 50 is stored as a free variable (+ 4 tests) - 200
