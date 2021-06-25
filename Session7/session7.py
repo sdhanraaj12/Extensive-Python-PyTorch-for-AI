@@ -1,96 +1,117 @@
-## Task 1
-def check_docstring(max_len) -> 'Function':  
+from collections import Callable
+def check_doc_outer_fn() -> 'Function':
     """
-    Wrapper for closure function which checks doc string length
-    :param max_len: Gets the length of docstring that a function should contain
-    :type max_len: Integer
-    :return func: closure function
-    """  
-    if not isinstance(max_len,int):
-        raise TypeError("Needs a integer as input")
-    def docstring_fifty(func) -> 'bool':
-        '''        
-        :param func: Gets the function of which doc string is to be checked
-        :type func: function
-        :return result: True or False if doc string is above specified length or below specified length 
-        '''       
-        if not hasattr(func, '__call__'):
-            raise TypeError("Needs a function as input")
-        result = len(func.__doc__) > max_len
-        return result
-    return docstring_fifty
+    Function to implement closure, encapsulates a function
+    that checks whether an given function has docstring with more than 50 characters
+    """
+    min_character_len = 50
 
-## Task 2
-def generate_fibanoci() -> 'Function':   
-    """
-    Wrapper to generate fibanoci number
-    Every time when closure is called we can get new fibnoci number
-    :return next_fib: Closure function
-    """
+    def check_doc_inner_fn(fn: 'Function') -> 'Boolean':
+        """
+        This is the inner function that checks the 
+        docstring legth.
+        Input: Function for which the docs has to be checked.
+        Output: True if doc string length > 50 else False
 
-    n = 0    
-    def next_Fib() -> 'Integer' :
         """
-        Generates fibanoci number every time when function is called
-        :return : Next fibanoci number
+        if not isinstance(fn, Callable):
+            raise TypeError("Expected function!")
+
+        return True if(len(fn.__doc__) >= min_character_len) else False
+
+    return check_doc_inner_fn
+
+# Write a closure that gives you the next Fibonacci number 
+def fibonacci() -> "Function":
+
+    """
+    Function to implement closure, encapsulates a function
+    that automatically gives you the fibonacci number.
+    """
+    num_1, num_2,count = 0, 1,0
+
+    def next_fibbonacci_number() -> "Number":
         """
-        a = 0
-        b = 1
-        c = 0
-        nonlocal n    
-        if (n==0):
-            n = n + 1            
+        Returns the next fibonacci number in the sequence.
+        """
+        nonlocal num_1, num_2, count
+
+        if(count == 0):
+            count+=1
             return 0
-        elif n==1:
-            n = n + 1            
-            return b 
-        else:            
-            for i in range(1,n):
-                c = a + b
-                a = b
-                b = c 
-            n = n + 1
-            return b
-    return next_Fib
+        elif(count==1):
+            count+=1
+            return num_2
+        else:
+            num_1, num_2 = num_2, num_1+num_2
+            return num_2
 
-## Task 3
-function_call_counter = dict()
-def function_counter() -> 'Function':
-    """
-    Wrapper for counting number of times a function is called
-    :return inner: add/mult/div is passed
-    """
-    count = dict()
-    def inner(fn,*args, **kwargs) -> 'Function(*args, **kwargs)':
-        """
-        :fn : function is passed and global counter is used to count 
-        :return fn(*args, **kwargs): funciton is called with arguments
-        """
-        if not hasattr(fn, '__call__'):
-            raise TypeError("Needs a function as input")
-        nonlocal count 
-        count[fn.__name__] = count.get(fn.__name__, 0) + 1
-        function_call_counter[fn.__name__] = count[fn.__name__] 
-        return fn(*args, **kwargs)
-    return inner
+    return next_fibbonacci_number
 
-## Task 4 
-def function_counter_mod(user_dict) -> 'Function':
+call_count = {}
+
+def func_counter() -> "Function":
     """
-    Wrapper for counting number of times a function is called with a user input dictionary
-    :param dict1: User defined dictionary 
-    :type dict1: dictionary
-    :return inner: add/mult/div is passed
+    Function to implement closure, encapsulates a function
+    that keeps tracks of how many times a particular function
+    has been called. It updates a global list with count, and
+    also mantains a free variable list so as to not let user 
+    alter the count.
+
     """
-    if not isinstance(user_dict,dict):
-        raise TypeError("Needs a dictionary as input")
-    def inner(fn, *args, **kwargs) -> 'Function':
+    call_count_free = {}
+    def func_counter_inside(func: "Function", *args, **kwargs) -> "":
         """
-        :fn : function is passed and global counter is used to count 
-        :return fn(*args, **kwargs): funciton is called with arguments
+        Inner function that actually Updates and keeps track
+        of the number of times,a function might be called.
+
+        Input: function and *args and *kwargs to be passed
+                to the function
+        Returns: Returned value from the function, called with
+                provided parameters.
         """
-        if not hasattr(fn, '__call__'):
-            raise TypeError("Needs a function as input")          
-        user_dict[fn.__name__] = user_dict.get(fn.__name__, 0) + 1
-        return fn(*args, **kwargs)
-    return inner 
+        global call_count
+        nonlocal call_count_free
+        if not isinstance(func, Callable):
+            raise TypeError("Expected function!")
+        func_name = func.__name__
+        count = call_count_free.get(func_name, 0)
+        call_count_free[func_name] = count + 1
+        call_count = call_count_free
+
+        return func(*args, **kwargs)
+
+    return func_counter_inside
+
+# Modify above such that now we can pass in different dictionary variables to update different dictionaries
+
+def func_count_with_dict_outer(count_dict : dict) -> "Function":
+    """
+    Function to implement closure, encapsulates a function
+    that keeps tracks of how many times a particular function
+    has been called. It updates a dictionary given in the input
+
+    """
+    if type(count_dict) != dict:
+        raise TypeError("Expected dictionary!")
+
+    def func_count_with_dict_inner(func: "Function", *args, **kwargs) -> "Function called with provided parameters.":
+        """
+        Updates and keeps track of the number of times, 
+        a function might be called.
+        Input: function and *args and *kwargs to be passed
+                to the function
+        Returns: Returned value from the function, called with
+                provided parameters.
+        """
+        nonlocal count_dict 
+
+        if not isinstance(func, Callable):
+            raise TypeError("Expected function!")
+        func_name = func.__name__
+        count = count_dict.get(func_name, 0)
+        count_dict[func_name] = count + 1
+
+        return func(*args, **kwargs)
+
+    return func_count_with_dict_inner
