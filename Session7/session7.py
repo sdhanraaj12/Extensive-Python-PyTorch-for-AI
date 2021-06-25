@@ -1,59 +1,96 @@
-times_dict3={'add': 0, 'mul': 0, 'div': 0} 
-
-def add(a:"Number1", b:"Number1")->"Sum of Numbers":
-    """This Function Returns sum of Two given real numbers (Integer/Floats)"""
-    return a + b
-
-
-def mul(a:"Number1", b:"Number1")->"Multiplication of Numbers":
-    """This Function Returns Multiplication of Two given real numbers(Integer/Floats)"""
-    return a * b
-
-
-def div(a:"Number1", b:"Number1")->"Division of Numbers":
-    """This Function Returns division of Two given real numbers (Integer/Floats)"""
-    return a / b if b != 0 else a
-
-
-def function_1_docstring_50_count(fn):
+## Task 1
+def check_docstring(max_len) -> 'Function':  
     """
-    This Closure function thats takes in function check if its docstring is having 50 character
-    if yes then stores it in  free variable doc_string else it stores False Doc String not Long enough
+    Wrapper for closure function which checks doc string length
+    :param max_len: Gets the length of docstring that a function should contain
+    :type max_len: Integer
+    :return func: closure function
+    """  
+    if not isinstance(max_len,int):
+        raise TypeError("Needs a integer as input")
+    def docstring_fifty(func) -> 'bool':
+        '''        
+        :param func: Gets the function of which doc string is to be checked
+        :type func: function
+        :return result: True or False if doc string is above specified length or below specified length 
+        '''       
+        if not hasattr(func, '__call__'):
+            raise TypeError("Needs a function as input")
+        result = len(func.__doc__) > max_len
+        return result
+    return docstring_fifty
+
+## Task 2
+def generate_fibanoci() -> 'Function':   
     """
-    doc_string = []
-    def inner():
-        nonlocal doc_string
-        doc_string = str(fn.__doc__) if fn.__doc__ != None and len(
-            fn.__doc__) >= 50 else "False Doc String not Long enough"
-        return doc_string
-    return inner
+    Wrapper to generate fibanoci number
+    Every time when closure is called we can get new fibnoci number
+    :return next_fib: Closure function
+    """
 
+    n = 0    
+    def next_Fib() -> 'Integer' :
+        """
+        Generates fibanoci number every time when function is called
+        :return : Next fibanoci number
+        """
+        a = 0
+        b = 1
+        c = 0
+        nonlocal n    
+        if (n==0):
+            n = n + 1            
+            return 0
+        elif n==1:
+            n = n + 1            
+            return b 
+        else:            
+            for i in range(1,n):
+                c = a + b
+                a = b
+                b = c 
+            n = n + 1
+            return b
+    return next_Fib
 
-def function_2_fibonacci():
-    """This Closure function gives the next fibonnaci number"""
-    fibonnaci_series = [0]
-    def inner():
-        nonlocal fibonnaci_series
-        if len(fibonnaci_series) == 1:
-            fibonnaci_series.append(1)            
-            return fibonnaci_series[-1]
-        else:
-            fibonnaci_series.append((fibonnaci_series[-1] + fibonnaci_series[-2]))            
-            return fibonnaci_series[-1]
-    return inner  
-
-
-def function_3_counter(fn: "Function Name for Counter"):
-    """This Function creates a counter for input function and updates the global dictionary times_dict3"""                   
-    def inner(*args, **kwargs):        
-        times_dict3[fn.__name__] += 1
-        return fn(*args, **kwargs),times_dict3
-    return inner
-
-
-def function_4_counter(fn: "Function Name for Counter", dict: "Input dictory name"):
-    """This Function creates a counter for input function and updates it in given dictionary"""    
-    def inner(*args, **kwargs):
-        dict[fn.__name__] += 1
+## Task 3
+function_call_counter = dict()
+def function_counter() -> 'Function':
+    """
+    Wrapper for counting number of times a function is called
+    :return inner: add/mult/div is passed
+    """
+    count = dict()
+    def inner(fn,*args, **kwargs) -> 'Function(*args, **kwargs)':
+        """
+        :fn : function is passed and global counter is used to count 
+        :return fn(*args, **kwargs): funciton is called with arguments
+        """
+        if not hasattr(fn, '__call__'):
+            raise TypeError("Needs a function as input")
+        nonlocal count 
+        count[fn.__name__] = count.get(fn.__name__, 0) + 1
+        function_call_counter[fn.__name__] = count[fn.__name__] 
         return fn(*args, **kwargs)
     return inner
+
+## Task 4 
+def function_counter_mod(user_dict) -> 'Function':
+    """
+    Wrapper for counting number of times a function is called with a user input dictionary
+    :param dict1: User defined dictionary 
+    :type dict1: dictionary
+    :return inner: add/mult/div is passed
+    """
+    if not isinstance(user_dict,dict):
+        raise TypeError("Needs a dictionary as input")
+    def inner(fn, *args, **kwargs) -> 'Function':
+        """
+        :fn : function is passed and global counter is used to count 
+        :return fn(*args, **kwargs): funciton is called with arguments
+        """
+        if not hasattr(fn, '__call__'):
+            raise TypeError("Needs a function as input")          
+        user_dict[fn.__name__] = user_dict.get(fn.__name__, 0) + 1
+        return fn(*args, **kwargs)
+    return inner 
