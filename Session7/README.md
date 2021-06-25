@@ -10,34 +10,73 @@
 - No readme or no docstring for each function, or no test cases (4, 2, 6, 6 tests), then 0 . Write test cases to check boundary conditions that might cause your code to fail. You mustg write the tests that are MOST important and what "I" already have in my mind 🤯↷🧠
 
 ## Functions used in main assignment file ([ session7.py](https://github.com/sdhanraaj12/Extensive_Python_PyTorch_for_AI/blob/master/Session7/session7.py))
-### function_1_docstring_50_count(fn):
-    """
-    This Closure function thats takes in function check if its docstring is having 50 character
-    if yes then stores it in  free variable doc_string else it stores False Doc String not Long enough
-    """
 
-### function_2_fibonacci():
-    """
-    This Closure function gives the next fibonnaci number
-    """
+**Contents**
+- check_docstring
+- generate_fibanoci
+- function_counter
+- function_counter_mod
 
-### function_3_counter (fn: "Function Name for Counter"):
-    """
-    This Function creates a counter for input function and updates the global dictionary times_dict3
-    """
-### function_4_counter (fn: "Function Name for Counter", dict: "Input dictory name"):
-    """
-    This Function creates a counter for input function and updates it in given dictionary
-    """
-### add (a:"Number1", b"Number1")->"Sum of Numbers":
-    """
-    This Function Returns sum of Two given real numbers (Integer/Floats)
-    """
-### mul (a:"Number1", b"Number1")->"Multiplication of Numbers":
-    """
-    This Function Returns Multiplication of Two given real numbers (Integer/Floats)
-    """
-### div (a:"Number1", b"Number1")->"Division of Numbers":
-    """
-    This Function Returns division of Two given real numbers (Integer/Floats)
-    """
+### check_docstring
+
+    def check_docstring(max_len) -> 'Function': 
+        def docstring_fifty(func) -> 'bool':            
+            result = len(func.__doc__) > max_len
+            return result
+        return docstring_fifty
+
+- Checks if a given function has docstring more than max_len variable
+- max_len is a free variable which can be checked with __code__.co_freevars function. its a test in testfile
+
+### generate_fibanoci
+
+    def generate_fibanoci() -> 'Function': 
+        n = 0    
+        def next_Fib() -> 'Integer' :
+            a = 0
+            b = 1
+            c = 0
+            nonlocal n    
+            if (n==0):
+                n = n + 1            
+                return 0
+            elif n==1:
+                n = n + 1            
+                return b 
+            else:            
+                for i in range(1,n):
+                    c = a + b
+                    a = b
+                    b = c 
+                n = n + 1
+                return b
+        return next_Fib
+
+- Fibnoci algorithm is fed at next_fib() closure function . n is a non local variable used as a counter to remember how many times a function(next_fib()) is called.
+
+
+### function_counter
+
+    def function_counter() -> 'Function':        
+        count = dict()
+        def inner(fn,*args, **kwargs) -> 'Function(*args, **kwargs)':           
+            nonlocal count 
+            count[fn.__name__] = count.get(fn.__name__, 0) + 1
+            function_call_counter[fn.__name__] = count[fn.__name__] 
+            return fn(*args, **kwargs)
+        return inner
+
+- A global dictionary 'function_call_counter' is used  , count is sued to remmeber number of times each function is called. 'count' is used as a nonlocal variable that can used to reset if 'function_call_counter' is modified by some other function.
+
+### function_counter_mod
+
+    def function_counter_mod(user_dict) -> 'Function':
+        def inner(fn, *args, **kwargs) -> 'Function':
+            user_dict[fn.__name__] = user_dict.get(fn.__name__, 0) + 1
+            return fn(*args, **kwargs)
+        return inner 
+
+- A user defined dictionary 'user_dict' is given as input and used  , User provided dictionary
+is directly modified inside the function every time when a particular function is called.
+
+
