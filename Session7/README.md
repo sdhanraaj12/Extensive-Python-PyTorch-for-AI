@@ -81,9 +81,6 @@ Based on our understanding following concept
 - closure
 - Used cases for counter creation
 
-***
-> ![My Image](https://github.com/rsriramiyengar/EPAi-session8-rsriramiyengar/blob/master/images/Image01.JPG)
-***
 
 We are using python >3.8.3
 
